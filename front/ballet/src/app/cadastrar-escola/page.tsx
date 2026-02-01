@@ -16,6 +16,7 @@ export default function CadastrarEscolaPage() {
     const router = useRouter();
     const { userData, user } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
+    const [isCepLoading, setIsCepLoading] = useState(false);
     const [error, setError] = useState('');
     const [senhaTemporaria, setSenhaTemporaria] = useState<string | null>(null);
 
@@ -52,6 +53,42 @@ export default function CadastrarEscolaPage() {
                 ...prev,
                 [name]: name === 'taxaRoylties' || name === 'diaPagamento' ? Number(value) : value,
             }));
+        }
+    };
+
+    const handleCepKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const cep = formData.cep.replace(/\D/g, '');
+
+            if (cep.length !== 8) {
+                setError('CEP deve ter 8 dígitos');
+                return;
+            }
+
+            setIsCepLoading(true);
+            setError('');
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    setError('CEP não encontrado');
+                    return;
+                }
+
+                setFormData(prev => ({
+                    ...prev,
+                    cidade: data.localidade || '',
+                    uf: data.uf || '',
+                    bairro: data.bairro || '',
+                }));
+            } catch {
+                setError('Erro ao buscar CEP');
+            } finally {
+                setIsCepLoading(false);
+            }
         }
     };
 
@@ -276,15 +313,24 @@ export default function CadastrarEscolaPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                         <Label htmlFor="cep">CEP</Label>
-                                        <Input
-                                            id="cep"
-                                            name="cep"
-                                            value={formData.cep}
-                                            onChange={handleChange}
-                                            placeholder="00000-000"
-                                            className="border-pink-200 focus:border-pink-400"
-                                            required
-                                        />
+                                        <div className="relative">
+                                            <Input
+                                                id="cep"
+                                                name="cep"
+                                                value={formData.cep}
+                                                onChange={handleChange}
+                                                onKeyDown={handleCepKeyDown}
+                                                placeholder="00000-000"
+                                                className="border-pink-200 focus:border-pink-400"
+                                                required
+                                            />
+                                            {isCepLoading && (
+                                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                                    <div className="animate-spin h-4 w-4 border-2 border-pink-500 rounded-full border-t-transparent"></div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <p className="text-xs text-gray-500 mt-1">Pressione Enter para buscar</p>
                                     </div>
                                     <div>
                                         <Label htmlFor="cidade">Cidade</Label>
@@ -292,9 +338,9 @@ export default function CadastrarEscolaPage() {
                                             id="cidade"
                                             name="cidade"
                                             value={formData.cidade}
-                                            onChange={handleChange}
-                                            placeholder="São Paulo"
-                                            className="border-pink-200 focus:border-pink-400"
+                                            placeholder="Preenchido automaticamente"
+                                            className="border-pink-200 bg-gray-50 cursor-not-allowed"
+                                            readOnly
                                             required
                                         />
                                     </div>
@@ -304,10 +350,10 @@ export default function CadastrarEscolaPage() {
                                             id="uf"
                                             name="uf"
                                             value={formData.uf}
-                                            onChange={handleChange}
-                                            placeholder="SP"
+                                            placeholder="UF"
                                             maxLength={2}
-                                            className="border-pink-200 focus:border-pink-400"
+                                            className="border-pink-200 bg-gray-50 cursor-not-allowed"
+                                            readOnly
                                             required
                                         />
                                     </div>
@@ -317,9 +363,9 @@ export default function CadastrarEscolaPage() {
                                             id="bairro"
                                             name="bairro"
                                             value={formData.bairro}
-                                            onChange={handleChange}
-                                            placeholder="Centro"
-                                            className="border-pink-200 focus:border-pink-400"
+                                            placeholder="Preenchido automaticamente"
+                                            className="border-pink-200 bg-gray-50 cursor-not-allowed"
+                                            readOnly
                                             required
                                         />
                                     </div>

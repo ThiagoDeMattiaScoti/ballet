@@ -109,6 +109,8 @@ ex1/
 
 ### 🏫 Gestão de Escolas
 - [x] Cadastro completo de escola (nome, responsável, endereço)
+- [x] **Integração com ViaCEP** - busca automática de endereço pelo CEP
+- [x] Campos de cidade, UF e bairro preenchidos automaticamente
 - [x] Definição de taxa de royalties
 - [x] Configuração de dia de pagamento
 - [x] Vinculação automática de utilizador à escola
@@ -233,7 +235,7 @@ Acesse: **http://localhost:3000**
 |--------|----------|-----------|------|
 | `POST` | `/login` | Autenticação de utilizador | ❌ |
 | `POST` | `/criarSenha` | Atualiza senha temporária | ✅ |
-| `POST` | `/criarUsuario` | Cadastra novo utilizador | ❌ |
+| `POST` | `/criarUsuario` | Cadastra novo utilizador | ✅ |
 
 ### Escolas
 
