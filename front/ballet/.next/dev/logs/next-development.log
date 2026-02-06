@@ -1,0 +1,8 @@
+[00:00:00.839] Server  LOG     ✓ Ready in 637ms
+[00:00:13.611] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.127] Server  ERROR   ReferenceError: location is not defined
+[00:00:36.333] Server  ERROR   ⨯ "uncaughtException:" ReferenceError: location is not defined
+[00:00:36.520] Server  ERROR   ⨯ "uncaughtException: " ReferenceError: location is not defined
+[00:00:36.701] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.808] Browser ERROR   Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-render Router CadastrarUsuarioPage CadastrarUsuarioPage
+[00:04:28.306] Server  LOG     ✓ Compiled in 317ms

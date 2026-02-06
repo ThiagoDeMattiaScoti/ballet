@@ -1,0 +1,7 @@
+{
+  "/cadastrar-escola/page": "app/cadastrar-escola/page.js",
+  "/cadastrar-usuario/page": "app/cadastrar-usuario/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/usuarios/page": "app/usuarios/page.js"
+}
